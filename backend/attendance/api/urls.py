@@ -1,6 +1,6 @@
 from django.urls import path
 from api.views import(
-	registration_view,profile_view,faceauth,calcattendance,changepassword
+	registration_view,profile_view,faceauth,calcattendance,changepassword,changeemail
 )
 
 from rest_framework.authtoken.views import obtain_auth_token
@@ -13,5 +13,6 @@ urlpatterns = [
 	path('profile/',profile_view,name="profile"),
 	path('faceauth/',faceauth,name="faceauth"),
 	path('calcattendance/',calcattendance,name="calcattendance"),
-	path('changepassword/',changepassword,name="changepassword")
+	path('changepassword/',changepassword,name="changepassword"),
+	path('changeemail/',changeemail,name="changeemail"),
 ]

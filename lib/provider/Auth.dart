@@ -107,13 +107,13 @@ class Auth with ChangeNotifier {
       var response = await http
           .post(url, body: {'username': username, 'password': opassword});
       print(response.body);
-      var r = json.decode(response.body) as Map;
+      var r = json.decode(response.body);
       if (r.containsKey('non_field_errors'))
         return -1;
       else {
-        const url1 = 'http://192.168.1.22:8000/api/changepass/';
+        const url1 = 'http://192.168.1.22:8000/api/changepassword/';
         response = await http.post(url1,
-            body: {'password': npassword},
+            body: {'password': npassword,'username':username},
             headers: {'Authorization': 'Token $_token'});
         r = json.decode(response.body) as Map;
         if (r['result'] == "true")
@@ -132,5 +132,32 @@ class Auth with ChangeNotifier {
     if (!checkb) return checkb;
     List<BiometricType> avalable = await localauth.getAvailableBiometrics();
     return avalable.contains(BiometricType.fingerprint);
+  }
+
+  Future<int> changeEmail(String password,String email) async{
+    const url = 'http://192.168.1.22:8000/api/login/';
+
+    try {
+      var response = await http
+          .post(url, body: {'username': username, 'password': password});
+      print(response.body);
+      var r = json.decode(response.body) as Map;
+      if (r.containsKey('non_field_errors'))
+        return -1;
+      else {
+        const url1 = 'http://192.168.1.22:8000/api/changeemail/';
+        response = await http.post(url1,
+            body: {'email': email,'username':username},
+            headers: {'Authorization': 'Token $_token'});
+        r = json.decode(response.body) as Map;
+        if (r['result']=='true')
+          return 1;
+        else
+          return 0;
+      }
+    } catch (e) {
+      throw e;
+    }
+
   }
 }

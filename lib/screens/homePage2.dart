@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_attendance_register/screens/utils/alertDialog.dart';
 import './tabs/NotificationsTab.dart';
 import './tabs/homeTab.dart';
 import './tabs/profilesTab.dart';
@@ -31,19 +32,16 @@ class _MainHomePageState extends State<MainHomePage> {
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.info_outline),
+              icon: const Icon(Icons.info_outline),
               onPressed: () {
                 showDialog(
                     context: context,
-                    builder: (ctx) => AlertDialog(
-                          title: const Text('About'),
-                          content: const Text('Version: 1.0.0'),
-                          actions: <Widget>[
-                            FlatButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: const Text('Ok'))
-                          ],
-                        ));
+                    builder: (ctx) => AlerttBox(
+                        'About',
+                        'Version: 1.0.0',
+                        FlatButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('Ok'))));
               })
         ],
         title: Text(appbarTitle[_currentIndex]),
@@ -53,19 +51,19 @@ class _MainHomePageState extends State<MainHomePage> {
           currentIndex: _currentIndex,
           items: [
             BottomNavigationBarItem(
-                title: Text('Home'),
+                title: const Text('Home'),
                 icon: Icon(
                   Icons.check_box_outline_blank,
                   color: _currentIndex == 0 ? Colors.blue : Colors.black,
                 )),
             BottomNavigationBarItem(
-                title: Text('Notifications'),
+                title: const Text('Notifications'),
                 icon: Icon(
                   Icons.notifications_none,
                   color: _currentIndex == 1 ? Colors.blue : Colors.black,
                 )),
             BottomNavigationBarItem(
-                title: Text('Profile'),
+                title: const Text('Profile'),
                 icon: Icon(
                   Icons.person_outline,
                   color: _currentIndex == 2 ? Colors.blue : Colors.black,

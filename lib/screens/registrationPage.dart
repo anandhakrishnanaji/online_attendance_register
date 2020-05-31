@@ -168,12 +168,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           children: <Widget>[
             const Text(
               'Sign Up',
-              style: TextStyle(
+              /* style: TextStyle(
                 color: Colors.black,
                 fontFamily: 'OpenSans',
                 fontSize: 30.0,
                 fontWeight: FontWeight.bold,
-              ),
+              ),*/
             ),
             const SizedBox(height: 48.0),
             emailtf(),

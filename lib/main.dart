@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
 
+import './screens/changeEmail.dart';
 import './screens/changePassword.dart';
 import './screens/loginPage.dart';
 import './screens/homePage.dart';
@@ -33,6 +34,15 @@ class MyApp extends StatelessWidget {
           title: 'Online Attendance',
           theme: ThemeData(
             primarySwatch: Colors.teal,
+            accentColor: Colors.blue,
+            buttonColor: Colors.blue,
+            fontFamily: 'Nunito',
+            textTheme: TextTheme(
+                button: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20),
+                body1: TextStyle(fontSize: 40, fontWeight: FontWeight.w700)),
           ),
           home: auth.isAuth()
               ? MainHomePage()
@@ -49,6 +59,7 @@ class MyApp extends StatelessWidget {
             FaceAuthScreen.routeName: (ctx) => FaceAuthScreen(cameras),
             FaceRegisterScreen.routeName: (ctx) => FaceRegisterScreen(cameras),
             ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
+            ChangeEmailScreen.routeName: (ctx) => ChangeEmailScreen(),
           },
         );
       }),

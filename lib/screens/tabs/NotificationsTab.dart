@@ -7,12 +7,12 @@ class NotificationTab extends StatelessWidget {
       children: <Widget>[
         Container(
           decoration: BoxDecoration(color: Colors.grey),
-          child: ListTile(
+          child: const ListTile(
             leading: Icon(
               Icons.notifications_paused,
               color: Colors.white,
             ),
-            title: Text('No new Notifications'),
+            title:const Text('No new Notifications'),
           ),
         )
       ],

@@ -82,15 +82,17 @@ def faceauth(request):
                 k.attendance_set.add(jam)
                 k.save()
         amu=Userss.objects.get(username=request.data['username'])
-        mu=Attendance.objects.get(date=td,user=amu)
-        kj=mu.present
+        try: mu=Attendance.objects.get(date=td,user=amu)
+        except: 
+            mu=Attendance(date=td,user=amu,present=False)
+            mu.save()
         mu.present=True
         mu.save()
         amu.save()
-        if not kj: 
+        if mu.timein is None: 
             print("yes")
             mu.timein=datetime.datetime.now().time()
-        else:
+        elif mu.timeout is None:
             print("no") 
             mu.timeout =datetime.datetime.now().time()
         mu.save()
@@ -118,3 +120,14 @@ def changepassword(request):
     j.save()
     return Response({'result':'true'})
 
+@api_view(['POST'])
+@authentication_classes((TokenAuthentication,))
+@permission_classes([IsAuthenticated,])
+def changeemail(request):
+    j=Userss.objects.get(username=request.data['username'])
+    if(len(Userss.objects.filter(email=request.data['email']))<=0):
+        j.email=request.data['email']
+        j.save()
+        return Response({'result':'true'})
+    else:
+        return Response({'result':'false'})

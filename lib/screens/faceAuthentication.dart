@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:online_attendance_register/screens/utils/alertDialog.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
@@ -11,7 +10,7 @@ import '../provider/Auth.dart';
 import './homePage2.dart';
 
 class FaceAuthScreen extends StatefulWidget {
-  static String routeName = '/faceReg';
+  static String routeName = '/faceAuth';
   final CameraDescription cameras;
   FaceAuthScreen(this.cameras);
   @override
@@ -37,12 +36,16 @@ class _FaceAuthenticationScreenState extends State<FaceAuthScreen> {
     super.dispose();
   }
 
-  Future<int> faceAuth(String username) async {
+  Future<int> faceAuth(String username, String token) async {
     try {
+      print('hi');
       await _initialiseControllerFuture;
       final now = DateTime.now().toString();
       final path = join((await getTemporaryDirectory()).path, '$now.jpg');
+      print(path);
       const url = "http://192.168.1.22:8000/api/faceauth/";
+      print('yuiolo');
+      print(path);
       await _controller.takePicture(path);
       //File file = File(path);
       Dio dio = new Dio();
@@ -53,24 +56,24 @@ class _FaceAuthenticationScreenState extends State<FaceAuthScreen> {
       final response = await dio
           .post(url,
               data: formdata,
-              options: Options(method: 'POST', responseType: ResponseType.json))
+              options: Options(
+                  method: 'POST',
+                  responseType: ResponseType.json,
+                  headers: {'Authorization': 'Token $token'}))
           .catchError((e) {
-
-
-        final dir = Directory(path);
-        dir.deleteSync(recursive: true);
-
-        
         print(e);
+        imageCache.clear();
         return 0;
       });
       print(response);
       final j = response.data as Map;
-      if (j['picture'])
+      imageCache.clear();
+      if (j['result'])
         return 1;
       else
         return -1;
     } catch (e) {
+      imageCache.clear();
       print(e);
       return 0;
     }
@@ -78,10 +81,12 @@ class _FaceAuthenticationScreenState extends State<FaceAuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final username = Provider.of<Auth>(context, listen: false).username;
+    final prod= Provider.of<Auth>(context, listen: false);
+    final token = prod.token;
+    final username=prod.username;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Camera'),
+        title:const Text('Camera'),
       ),
       body: FutureBuilder<void>(
           future: _initialiseControllerFuture,
@@ -96,7 +101,7 @@ class _FaceAuthenticationScreenState extends State<FaceAuthScreen> {
           setState(() {
             _isloading = true;
           });
-          faceAuth(username).then((b) {
+          faceAuth(username, token).then((b) {
             setState(() {
               _isloading = false;
             });
@@ -108,21 +113,18 @@ class _FaceAuthenticationScreenState extends State<FaceAuthScreen> {
             };
             showDialog(
                 context: context,
-                builder: (ctx) => AlertDialog(
-                      title: Text(text[b]),
-                      content: Text(content[b]),
-                      actions: <Widget>[
-                        FlatButton(
-                            onPressed: () {
-                              if (b != 1)
-                                Navigator.of(context).pop();
-                              else
-                                Navigator.of(context).pushReplacementNamed(
-                                    MainHomePage.routeName);
-                            },
-                            child: b == 1 ? Text('Next') : Text('OK'))
-                      ],
-                    ));
+                builder: (ctx) => AlerttBox(
+                    text[b],
+                    content[b],
+                    FlatButton(
+                        onPressed: () {
+                          if (b != 1)
+                            Navigator.of(context).pop();
+                          else
+                            Navigator.of(context)
+                                .pushReplacementNamed(MainHomePage.routeName);
+                        },
+                        child: b == 1 ? Text('Next') : Text('OK'))));
           });
         },
         child:

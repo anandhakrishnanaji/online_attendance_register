@@ -4,7 +4,7 @@ import '../provider/Auth.dart';
 import './homePage2.dart';
 
 class ChangePassScreen extends StatefulWidget {
-  static String routeName='/changepassword';
+  static String routeName = '/changepassword';
   @override
   _ChangePassScreenState createState() => _ChangePassScreenState();
 }
@@ -29,7 +29,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
         labelStyle: const TextStyle(fontSize: 20),
         hintText: !_foo ? text : null,
         contentPadding: const EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 25.0),
-       // border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        // border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
         prefixIcon: const Icon(
           Icons.lock,
           color: Colors.black,
@@ -110,8 +110,10 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
                           content: const Text('Password successfully changed'),
                           actions: <Widget>[
                             FlatButton(
-                                onPressed: () => Navigator.of(context)
-                                    .popAndPushNamed(MainHomePage.routeName),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                },
                                 child: const Text('Ok'))
                           ],
                         ));
@@ -127,7 +129,8 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
         },
         padding: const EdgeInsets.all(12),
         color: Colors.lightBlueAccent,
-        child: const Text('Change Password', style: TextStyle(color: Colors.white)),
+        child: const Text('Change Password',
+            style: TextStyle(color: Colors.white)),
       ),
       //    ),
     );
@@ -143,20 +146,17 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Change Password'),),
-          body: ListView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Change Password'),
+      ),
+      body: ListView(
         shrinkWrap: true,
         padding: const EdgeInsets.only(left: 24.0, right: 24.0),
         children: <Widget>[
           const SizedBox(height: 25.0),
           const Text(
             'Change Password',
-            style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'OpenSans',
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
           ),
           const SizedBox(height: 48.0),
           passwordtf(),
