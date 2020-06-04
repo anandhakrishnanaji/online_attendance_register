@@ -4,13 +4,16 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+The IP Adress and many factors have been hard coded so it must be changed before running to avoid exceptions.
 
-A few resources to get you started if this is your first Flutter project:
+A few resources to get you started:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- [Refer here to start the Django local server](https://docs.djangoproject.com/en/3.0/)
+- [Refer here to create superuser and to know about Admin site](https://docs.djangoproject.com/en/3.0/intro/tutorial02/)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Get your IP Address by typing in ifconfig in Terminal / ipconfig in Command Prompt and run the django server in 
+[IP ADDRESS]:8000. Visit http://[IP ADDRESS]:8000/admin/ to check whether all are running perfectly.
+
+Install face_recognition module in python3 using 'pip3 install face_recognition'
+
+You are all set to go!!!
